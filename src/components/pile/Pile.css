@@ -1,0 +1,6 @@
+.pile {
+  position: absolute;
+  min-height: 4.5cm;
+  min-width: 3cm;
+  text-align: center;
+}

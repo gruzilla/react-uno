@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="197.89528mm"
+   height="296.02518mm"
+   viewBox="0 0 197.89528 296.02518"
+   version="1.1"
+   id="svg5004"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
+   sodipodi:docname="unoback.svg"
+   inkscape:export-filename="/home/ma/Documents/studium/master/cardbased/public/uno/back.png"
+   inkscape:export-xdpi="30.93"
+   inkscape:export-ydpi="30.93">
+  <defs
+     id="defs4998" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.24748737"
+     inkscape:cx="-272.52111"
+     inkscape:cy="967.89591"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0.3"
+     fit-margin-bottom="0"
+     inkscape:window-width="2044"
+     inkscape:window-height="1113"
+     inkscape:window-x="0"
+     inkscape:window-y="18"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata5001">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-4.29e-5,-0.97487049)">
+    <rect
+       x="0.817792"
+       y="1.7926196"
+       width="196.25978"
+       height="294.38968"
+       ry="32.709965"
+       rx="32.709965"
+       id="rect2987-8-5-81-2-1-3"
+       style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1.63549817" />
+    <rect
+       x="17.172773"
+       y="18.147602"
+       width="163.54982"
+       height="261.67972"
+       ry="16.354982"
+       rx="16.354982"
+       id="rect3757-26-33-5-9-9-3"
+       style="fill-rule:evenodd;stroke-width:3.27099633" />
+    <path
+       d="m 148.01263,67.212596 c -72.259581,0 -130.839856,58.580274 -130.839856,130.839854 0,18.06506 14.644905,32.70997 32.709964,32.70997 72.259582,0 130.839852,-58.58028 130.839852,-130.83986 0,-18.065059 -14.6449,-32.709964 -32.70996,-32.709964 z"
+       id="path3773-0-4-8-4-60-3-86-5-6-4"
+       inkscape:connector-curvature="0"
+       style="fill:#ff5555;fill-rule:evenodd;stroke-width:3.27099633;fill-opacity:1" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:105.83333588px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffaa00;fill-opacity:1;stroke:#000000;stroke-width:0.79375;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       x="-112.55807"
+       y="196.92404"
+       id="text5658"
+       transform="rotate(-45)"><tspan
+         sodipodi:role="line"
+         id="tspan5656"
+         x="-112.55807"
+         y="196.92404"
+         style="font-size:70.55555725px;fill:#ffaa00;fill-opacity:1;stroke-width:0.79375;stroke:#000000;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none">UNO</tspan></text>
+  </g>
+</svg>

@@ -1,0 +1,50 @@
+.tableau {
+  background-color: #eeeeee;
+  border: 10px solid #eeeeee;
+  border-radius: 10px;
+  font-size: 8px;
+  font-family: monospace;
+  text-transform: lowercase;
+  text-align: center;
+}
+
+.pile.can-drop {
+  background-color: rgba(0, 150, 0, 0.3);
+}
+
+.tableau.player1 {
+  top: 8%;
+  left: 40%;
+  transform: rotate(180deg);
+}
+
+.tableau.player2 {
+  top: 75%;
+  left: 40%;
+}
+
+.tableau.center {
+  top: 40%;
+  left: 30%;
+  width: 9cm;
+}
+
+.pile.main {
+  left: 6cm;
+}
+
+nav ul {
+  max-width: 3em;
+  list-style: none;
+}
+
+nav ul li {
+  padding-top: 1em;
+  text-align: center;
+}
+
+nav ul button {
+  border: solid black 1px;
+  border-radius: 3px;
+  background-color: white;
+}

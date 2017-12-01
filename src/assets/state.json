@@ -1,0 +1,78 @@
+{
+  "tableaux": {
+    "player1": {
+      "piles": ["player1hand"]
+    },
+    "player2": {
+      "piles": ["player2hand"]
+    },
+    "center": {
+      "piles": ["main", "deck"]
+    }
+  },
+  "piles": {
+    "player1hand": { "cards": []},
+    "player2hand": { "cards": []},
+    "main": { "cards": []},
+    "deck": {
+      "cards": [
+        "yellow0",
+        "yellow1",
+        "yellow2",
+        "yellow3",
+        "yellow4",
+        "yellow5",
+        "yellow6",
+        "yellow7",
+        "yellow8",
+        "yellow9",
+        "yellowStop",
+        "yellowPlus2",
+        "yellowReverse",
+        "green0",
+        "green1",
+        "green2",
+        "green3",
+        "green4",
+        "green5",
+        "green6",
+        "green7",
+        "green8",
+        "green9",
+        "greenStop",
+        "greenPlus2",
+        "greenReverse",
+        "blue0",
+        "blue1",
+        "blue2",
+        "blue3",
+        "blue4",
+        "blue5",
+        "blue6",
+        "blue7",
+        "blue8",
+        "blue9",
+        "blueStop",
+        "bluePlus2",
+        "blueReverse",
+        "red0",
+        "red1",
+        "red2",
+        "red3",
+        "red4",
+        "red5",
+        "red6",
+        "red7",
+        "red8",
+        "red9",
+        "redStop",
+        "redPlus2",
+        "redReverse",
+        "wild0",
+        "wild1",
+        "wild2",
+        "wild3"
+      ]
+    }
+  }
+}

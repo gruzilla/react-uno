@@ -1,0 +1,138 @@
+{
+  "initialMoves": [
+    {
+      "from": "deck",
+      "to": "player1hand",
+      "amount": 7
+    },
+    {
+      "from": "deck",
+      "to": "player2hand",
+      "amount": 7
+    },
+    {
+      "from": "deck",
+      "to": "main",
+      "amount": 1
+    }
+  ],
+  "tableaux": [
+    {
+      "id": "player1",
+      "name": "Player 1"
+    },
+    {
+      "id": "player2",
+      "name": "Player 2"
+    },
+    {
+      "id": "center",
+      "name": "Shared Tableau"
+    }
+  ],
+  "piles": [
+    {
+      "id": "player1hand",
+      "name": "Spieler 1",
+      "sort": true,
+      "incoming": [
+        "'deck' === move.from"
+      ],
+      "allowShowFront": true,
+      "showBack": true,
+      "unfolded": true
+    },
+    {
+      "id": "player2hand",
+      "name": "Spieler 2",
+      "sort": true,
+      "incoming": [
+        "'deck' === move.from"
+      ],
+      "allowShowFront": true,
+      "showBack": true,
+      "unfolded": true
+    },
+    {
+      "id": "deck",
+      "name": "Stapel",
+      "showBack": true,
+      "initialShuffle": true
+    },
+    {
+      "id": "main",
+      "name": "Spielfeld",
+      "allowShowFront": true,
+      "incoming": [
+        "move.amount === 1 && (toPile.cards.length === 0 || getCard(card).suit === 'wild' || getCard(getLast(toPile.cards)).suit === getCard(card).suit || getCard(getLast(toPile.cards)).rank === getCard(card).rank)"
+      ]
+    }
+  ],
+  "cards": [
+    { "id": "yellow0",      "url": "yellow0",       "suit": "yellow",   "rank": 0,    "name": "Yellow Zero"   },
+    { "id": "yellow1",      "url": "yellow1",       "suit": "yellow",   "rank": 1,    "name": "Yellow One"    },
+    { "id": "yellow2",      "url": "yellow2",       "suit": "yellow",   "rank": 2,    "name": "Yellow Two"    },
+    { "id": "yellow3",      "url": "yellow3",       "suit": "yellow",   "rank": 3,    "name": "Yellow Three"  },
+    { "id": "yellow4",      "url": "yellow4",       "suit": "yellow",   "rank": 4,    "name": "Yellow Four"   },
+    { "id": "yellow5",      "url": "yellow5",       "suit": "yellow",   "rank": 5,    "name": "Yellow Five"   },
+    { "id": "yellow6",      "url": "yellow6",       "suit": "yellow",   "rank": 6,    "name": "Yellow Six"    },
+    { "id": "yellow7",      "url": "yellow7",       "suit": "yellow",   "rank": 7,    "name": "Yellow Seven"  },
+    { "id": "yellow8",      "url": "yellow8",       "suit": "yellow",   "rank": 8,    "name": "Yellow Eight"  },
+    { "id": "yellow9",      "url": "yellow9",       "suit": "yellow",   "rank": 9,    "name": "Yellow Nine"   },
+    { "id": "yellowStop",   "url": "yellowStop",    "suit": "yellow",   "rank": 0,    "name": "Yellow Stop"   },
+    { "id": "yellowPlus2",  "url": "yellowPlus2",   "suit": "yellow",   "rank": 2,    "name": "Yellow +2"     },
+    { "id": "yellowReverse","url": "yellowReverse", "suit": "yellow",   "rank": 0,    "name": "Yellow Reverse"},
+
+    { "id": "green0",       "url": "green0",        "suit": "green",    "rank": 0,    "name": "Green Zero"   },
+    { "id": "green1",       "url": "green1",        "suit": "green",    "rank": 1,    "name": "Green One"    },
+    { "id": "green2",       "url": "green2",        "suit": "green",    "rank": 2,    "name": "Green Two"    },
+    { "id": "green3",       "url": "green3",        "suit": "green",    "rank": 3,    "name": "Green Three"  },
+    { "id": "green4",       "url": "green4",        "suit": "green",    "rank": 4,    "name": "Green Four"   },
+    { "id": "green5",       "url": "green5",        "suit": "green",    "rank": 5,    "name": "Green Five"   },
+    { "id": "green6",       "url": "green6",        "suit": "green",    "rank": 6,    "name": "Green Six"    },
+    { "id": "green7",       "url": "green7",        "suit": "green",    "rank": 7,    "name": "Green Seven"  },
+    { "id": "green8",       "url": "green8",        "suit": "green",    "rank": 8,    "name": "Green Eight"  },
+    { "id": "green9",       "url": "green9",        "suit": "green",    "rank": 9,    "name": "Green Nine"   },
+    { "id": "greenStop",    "url": "greenStop",     "suit": "green",    "rank": 0,    "name": "Green Stop"   },
+    { "id": "greenPlus2",   "url": "greenPlus2",    "suit": "green",    "rank": 2,    "name": "Green +2"     },
+    { "id": "greenReverse", "url": "greenReverse",  "suit": "green",    "rank": 0,    "name": "Green Reverse"},
+
+    { "id": "blue0",        "url": "blue0",         "suit": "blue",     "rank": 0,    "name": "Blue Zero"   },
+    { "id": "blue1",        "url": "blue1",         "suit": "blue",     "rank": 1,    "name": "Blue One"    },
+    { "id": "blue2",        "url": "blue2",         "suit": "blue",     "rank": 2,    "name": "Blue Two"    },
+    { "id": "blue3",        "url": "blue3",         "suit": "blue",     "rank": 3,    "name": "Blue Three"  },
+    { "id": "blue4",        "url": "blue4",         "suit": "blue",     "rank": 4,    "name": "Blue Four"   },
+    { "id": "blue5",        "url": "blue5",         "suit": "blue",     "rank": 5,    "name": "Blue Five"   },
+    { "id": "blue6",        "url": "blue6",         "suit": "blue",     "rank": 6,    "name": "Blue Six"    },
+    { "id": "blue7",        "url": "blue7",         "suit": "blue",     "rank": 7,    "name": "Blue Seven"  },
+    { "id": "blue8",        "url": "blue8",         "suit": "blue",     "rank": 8,    "name": "Blue Eight"  },
+    { "id": "blue9",        "url": "blue9",         "suit": "blue",     "rank": 9,    "name": "Blue Nine"   },
+    { "id": "blueStop",     "url": "blueStop",      "suit": "blue",     "rank": 0,    "name": "Blue Stop"   },
+    { "id": "bluePlus2",    "url": "bluePlus2",     "suit": "blue",     "rank": 2,    "name": "Blue +2"     },
+    { "id": "blueReverse",  "url": "blueReverse",   "suit": "blue",     "rank": 0,    "name": "Blue Reverse"},
+
+    { "id": "red0",         "url": "red0",          "suit": "red",      "rank": 0,    "name": "Red Zero"   },
+    { "id": "red1",         "url": "red1",          "suit": "red",      "rank": 1,    "name": "Red One"    },
+    { "id": "red2",         "url": "red2",          "suit": "red",      "rank": 2,    "name": "Red Two"    },
+    { "id": "red3",         "url": "red3",          "suit": "red",      "rank": 3,    "name": "Red Three"  },
+    { "id": "red4",         "url": "red4",          "suit": "red",      "rank": 4,    "name": "Red Four"   },
+    { "id": "red5",         "url": "red5",          "suit": "red",      "rank": 5,    "name": "Red Five"   },
+    { "id": "red6",         "url": "red6",          "suit": "red",      "rank": 6,    "name": "Red Six"    },
+    { "id": "red7",         "url": "red7",          "suit": "red",      "rank": 7,    "name": "Red Seven"  },
+    { "id": "red8",         "url": "red8",          "suit": "red",      "rank": 8,    "name": "Red Eight"  },
+    { "id": "red9",         "url": "red9",          "suit": "red",      "rank": 9,    "name": "Red Nine"   },
+    { "id": "redStop",      "url": "redStop",       "suit": "red",      "rank": 0,    "name": "Red Stop"   },
+    { "id": "redPlus2",     "url": "redPlus2",      "suit": "red",      "rank": 2,    "name": "Red +2"     },
+    { "id": "redReverse",   "url": "redReverse",    "suit": "red",      "rank": 0,    "name": "Red Reverse"},
+
+    { "id": "wild0",        "url": "wild",          "suit": "wild",     "rank": null, "name": "Wild"   },
+    { "id": "wild1",        "url": "wild",          "suit": "wild",     "rank": null, "name": "Wild"   },
+    { "id": "wild2",        "url": "wild",          "suit": "wild",     "rank": null, "name": "Wild"   },
+    { "id": "wild3",        "url": "wild",          "suit": "wild",     "rank": null, "name": "Wild"   },
+
+    { "id": "wildPlus40",   "url": "wild4",         "suit": "wild",     "rank": 4,    "name": "Wild +4"   },
+    { "id": "wildPlus41",   "url": "wild4",         "suit": "wild",     "rank": 4,    "name": "Wild +4"   },
+    { "id": "wildPlus42",   "url": "wild4",         "suit": "wild",     "rank": 4,    "name": "Wild +4"   },
+    { "id": "wildPlus43",   "url": "wild4",         "suit": "wild",     "rank": 4,    "name": "Wild +4"   }
+  ]
+}
