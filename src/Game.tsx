@@ -69,7 +69,7 @@ class Game extends React.Component<GameProps, GameState> {
               () => {
                 this.setState(prevState => shuffle.make(prevState));
               },
-              600
+              1000
             );
           }
         }

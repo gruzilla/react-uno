@@ -93,7 +93,6 @@ class Card extends React.Component<CardProps, CardState> {
     } else {
       animCss.animationName = 'none';
     }
-    console.log('rendering ' + this.props.id + ' ' + this.props.animationName + ' ' + animCss.animationName);
     const cssProps = {...this.props.css, ...animCss};
 
     return connectDragSource(
@@ -147,7 +146,7 @@ function getShuffleAnimation(distance: number): string {
   let keyframes =
     `@-webkit-keyframes ${animationName} {
         0% {}
-        50% {-webkit-transform:translate(${
+        80% {-webkit-transform:translate(${
             Math.random() * distance * 2 - distance
           }px, ${
             Math.random() * distance * 2 - distance
