@@ -34,7 +34,7 @@
 }
 
 nav ul {
-  max-width: 3em;
+  max-width: 5em;
   list-style: none;
 }
 
@@ -47,4 +47,27 @@ nav ul button {
   border: solid black 1px;
   border-radius: 3px;
   background-color: white;
+  padding: 1em;
+  min-width: 10em;
+}
+
+nav ul button:active {
+  background-color: #688c00;
+}
+
+nav ul button span {
+  width: 18px;
+  height: 18px;
+  padding: 4px;
+  background-color: #688c00;
+  color: white;
+  text-align: center;
+  /* border: 2px solid #666; */
+  border-radius: 50%;
+  font: 16px sans-serif;
+  display: inline-block;
+}
+
+nav ul button.restart {
+  background-color: #cfcfcf;
 }

@@ -1,17 +1,22 @@
 import * as React from 'react';
-import './App.css';
 import { default as Tableau, TableauProps } from './components/tableau/Tableau';
-import { default as Card, CardProps } from './components/card/Card';
+import {
+  default as Card, CardProps,
+  CardDragProps
+} from './components/card/Card';
 import { default as Pile, PileProps } from './components/pile/Pile';
 import {
   GameState, Move, PileState,
   TableauState, MoveProps, Shuffle
-} from './gamelib/CardGameEngine';
+} from './lib/CardGameEngine';
 // import HTML5Backend from 'react-dnd-html5-backend';
-import TouchBackend from 'react-dnd-touch-backend';
+// import TouchBackend from 'react-dnd-touch-backend';
+import { default as MultiBackend, Preview } from 'react-dnd-multi-backend';
+import HTML5toTouch from 'react-dnd-multi-backend/lib/HTML5toTouch'; // or any other pipeline
 import { DragDropContext } from 'react-dnd';
-import ItemPreview from './components/common/ItemPreview';
+// import ItemPreview from './components/lib/ItemPreview';
 import './assets/uno.css';
+import ItemTypes from './lib/ItemTypes';
 
 // const logo = require('./logo.svg');
 const gameState = require('./assets/state.json');
@@ -23,8 +28,7 @@ export interface GameProps {
   initialMoves: MoveProps[];
 }
 
-class App extends React.Component<GameProps, GameState> {
-
+class Game extends React.Component<GameProps, GameState> {
   constructor(props: GameProps) {
     super(props);
     this.state = JSON.parse(JSON.stringify(gameState));
@@ -59,7 +63,11 @@ class App extends React.Component<GameProps, GameState> {
           let shuffle = new Shuffle(pileProps.id);
           if (shuffle.isValid(this.state)) {
             // multiple state changes are pushed in here
-            this.setState(prevState => shuffle.make(prevState));
+            console.log('setState');
+            this.setState(prevState => shuffle.animate(prevState));
+            window.setTimeout(() => {
+              this.setState(prevState => shuffle.make(prevState));
+            }, 600);
           }
         }
       });
@@ -81,13 +89,13 @@ class App extends React.Component<GameProps, GameState> {
       <div>
         <nav>
           <ul>
-            <li><button onClick={() => this.initialShuffle()}>shuffle</button></li>
-            <li><button onClick={() => this.initialMoves()}>deal</button></li>
-            <li><button onClick={() => this.restart()}>restart</button></li>
+            <li><button onClick={() => this.initialShuffle()}><span>1</span> shuffle</button></li>
+            <li><button onClick={() => this.initialMoves()}><span>2</span> deal</button></li>
+            <li><button onClick={() => this.restart()} className="restart">restart</button></li>
           </ul>
         </nav>
         {tableaux}
-        <ItemPreview key="__preview" />
+        <Preview generator={generatePreview} />
       </div>
     );
   }
@@ -143,9 +151,13 @@ class App extends React.Component<GameProps, GameState> {
         const cardProps = this.props.cards.find(cCardProps => cCardProps.id === cardKey);
         if (cardProps) {
           cardProps.parentPile = pileKey;
-          let newProps = {...cardProps, ...{ key: cardProps.id }};
+          if (pileState.isShuffling) {
+            cardProps.animationName = 'shuffle';
+          } else {
+            cardProps.animationName = 'none';
+          }
           cards.push(
-            <Card {...newProps} />
+            <Card key={cardProps.id} {...cardProps} />
           );
         }
       });
@@ -154,4 +166,25 @@ class App extends React.Component<GameProps, GameState> {
   }
 }
 
-export default DragDropContext(TouchBackend)(App);
+/* helper functions */
+
+function generatePreview(type: ItemTypes, item: {}, style: React.CSSProperties) {
+  if (type === ItemTypes.CARD) {
+    const cardProps: CardDragProps = item as CardDragProps;
+
+    const url = cardProps ? cardProps.previewUrl : '';
+
+    return (
+      <div
+        className={'card is-flying ' + cardProps.cardId}
+        style={style}
+      >
+        <img src={url} />
+      </div>
+    );
+  }
+
+  return <div />;
+}
+
+export default DragDropContext(MultiBackend(HTML5toTouch))(Game);

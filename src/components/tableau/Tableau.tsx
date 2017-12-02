@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TableauState } from '../../gamelib/CardGameEngine';
+import { TableauState } from '../../lib/CardGameEngine';
 import './Tableau.css';
 
 export interface TableauProps {

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { MoveProps, PileState } from '../../gamelib/CardGameEngine';
+import { MoveProps, PileState } from '../../lib/CardGameEngine';
 import { CardDragProps, CardDropResult, CardProps } from '../card/Card';
 import './Pile.css';
-import ItemTypes from '../common/ItemTypes';
+import ItemTypes from '../../lib/ItemTypes';
 import { DropTarget, DropTargetMonitor, ConnectDropTarget } from 'react-dnd';
 
 export interface PileProps {
@@ -21,7 +21,7 @@ export interface PileProps {
   canDrop: Function;
   connectDropTarget: ConnectDropTarget;
 
-  // Injected by App
+  // Injected by Game
   makeMove: (moveProps: MoveProps) => void;
 }
 
@@ -94,37 +94,11 @@ class Pile extends React.Component<PileProps, PileState> {
   static UNFOLD_ANGEL_PER_CARD_DEGREE: number = 3.5;
   static UNFOLD_RADIUS_PIXEL: number = 1000;
 
-  static getTransformMatrix(angel: number, radius: number, amount: number, index: number): string {
-
-    // switch order direction
-    index = amount - index;
-
-    // calculate distance to center and angel step
-    const di = (index - (amount + 1) / 2);
-    const as = angel / (amount - 1);
-    // calculate angel for this index
-    const ai = as * di;
-
-    // calculate transformation matrix, do a Z-rotation
-    const h1 = Math.sin(ai / 180 * Math.PI);
-    const h2 = -h1;
-    const h3 = Math.cos(ai / 180 * Math.PI);
-    // and a x/y translation
-    const t1 = - radius * h1;
-    const t2 = radius * (1 - h3);
-
-    return 'matrix3d(' +
-      h3 + ',' + h2 + ',0,0,' +
-      h1 + ',' + h3 + ',0,0,' +
-      '0,0,1,0,' +
-      t1 + ',' + t2 + ',0,1' +
-      ')';
-  }
-
   constructor(props: PileProps) {
     super(props);
     this.state = {
       cards: [],
+      isShuffling: false,
       showBack: props.hasOwnProperty('showBack') && props.showBack ? props.showBack : false,
       unfolded: props.hasOwnProperty('unfolded') && props.unfolded ? props.unfolded : false
     };
@@ -155,16 +129,14 @@ class Pile extends React.Component<PileProps, PileState> {
     // as defined by your `collect` function above:
     const { isOver, canDrop, connectDropTarget } = this.props;
 
-    const cards = this.overwritePropOnChildren(
+    const cards = overwritePropOnChildren(
       this.props.children,
       (item) => ({
         startDrag: this.childHide.bind(this),
         endDrag: () => null,
         showBack: this.state.showBack,
         css: this.state.unfolded ? {
-          transformOrigin: 'center bottom 0px',
-          transition: '500ms ease-in-out',
-          transform: Pile.getTransformMatrix(
+          transform: getTransformMatrix(
             Math.min(Pile.UNFOLD_MAX_ANGEL, Pile.UNFOLD_ANGEL_PER_CARD_DEGREE * childSize),
             Pile.UNFOLD_RADIUS_PIXEL,
             childSize,
@@ -224,19 +196,47 @@ class Pile extends React.Component<PileProps, PileState> {
       ...{unfolded: !prevState.unfolded}
     }));
   }
+}
 
-  overwritePropOnChildren(
-    children: React.ReactNode,
-    props: ((child: React.ReactElement<CardProps>) => object)
-  ): React.ReactElement<CardProps>[] {
-    return React.Children.map(
-      children,
-      (child: React.ReactElement<CardProps>) => {
-        return React.cloneElement(child, props(child));
-      }
-    );
-  }
+/* helper functions */
 
+function overwritePropOnChildren(
+  children: React.ReactNode,
+  props: ((child: React.ReactElement<CardProps>) => object)
+): React.ReactElement<CardProps>[] {
+  return React.Children.map(
+    children,
+    (child: React.ReactElement<CardProps>) => {
+      return React.cloneElement(child, props(child));
+    }
+  );
+}
+
+function getTransformMatrix(angel: number, radius: number, amount: number, index: number): string {
+
+  // switch order direction
+  index = amount - index;
+
+  // calculate distance to center and angel step
+  const di = (index - (amount + 1) / 2);
+  const as = angel / (amount - 1);
+  // calculate angel for this index
+  const ai = as * di;
+
+  // calculate transformation matrix, do a Z-rotation
+  const h1 = Math.sin(ai / 180 * Math.PI);
+  const h2 = -h1;
+  const h3 = Math.cos(ai / 180 * Math.PI);
+  // and a x/y translation
+  const t1 = - radius * h1;
+  const t2 = radius * (1 - h3);
+
+  return 'matrix3d(' +
+    h3 + ',' + h2 + ',0,0,' +
+    h1 + ',' + h3 + ',0,0,' +
+    '0,0,1,0,' +
+    t1 + ',' + t2 + ',0,1' +
+    ')';
 }
 
 export default DropTarget(ItemTypes.CARD, pileTarget, (connect, monitor) => ({

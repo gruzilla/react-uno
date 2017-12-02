@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { CardState } from '../../gamelib/CardGameEngine';
+import { CardState } from '../../lib/CardGameEngine';
 import { DragSource, DragSourceMonitor } from 'react-dnd';
 import './Card.css';
-import ItemTypes from '../common/ItemTypes';
+import ItemTypes from '../../lib/ItemTypes';
 // let unoSvgPath = require('../../assets/uno.svg');
 // let unoPngPath = require('../../assets/uno.png');
 
@@ -15,6 +15,7 @@ export interface CardProps {
   parentPile: string;
   showBack?: boolean;
   css?: React.CSSProperties;
+  animationName?: string;
 
   // Injected by React DnD:
   connectDragSource: Function;
@@ -42,6 +43,7 @@ export interface CardDropResult {
  */
 const cardSource = {
   beginDrag(props: CardProps, monitor: DragSourceMonitor, component: Card): CardDragProps {
+    // dispatch event
     props.startDrag();
 
     const card = props.showBack ? 'back' : props.url;
@@ -56,6 +58,7 @@ const cardSource = {
   },
 
   endDrag(props: CardProps, monitor: DragSourceMonitor, component: Card) {
+    // dispatch event
     props.endDrag();
 
     if (!monitor.didDrop()) {
@@ -84,17 +87,26 @@ class Card extends React.Component<CardProps, CardState> {
     const {isDragging, connectDragSource, showBack} = this.props;
 
     const url = process.env.PUBLIC_URL + '/uno/' + (showBack ? 'back' : this.props.url) + '.png';
+    const animCss: React.CSSProperties = {};
+    if (this.props.animationName && this.props.animationName != 'none') {
+      animCss.animationName = getAnimationName(this.props.animationName);
+    } else {
+      animCss.animationName = 'none';
+    }
+    console.log('rendering ' + this.props.id + ' ' + this.props.animationName + ' ' + animCss.animationName);
+    const cssProps = {...this.props.css, ...animCss};
 
     return connectDragSource(
       <div
         className={'card ' + this.props.id + (isDragging ? ' is-dragging' : '')}
-        style={this.props.css}
+        style={cssProps}
       >
         <img src={url} ref={(el) => this._image = el}/>
       </div>
     );
   }
 
+  /*
   // overwrite event.dataTransfer.setDragImage()
   componentDidMount() {
     if (this.props.connectDragPreview) {
@@ -111,13 +123,48 @@ class Card extends React.Component<CardProps, CardState> {
       );
     }
   }
+  */
+}
+
+/* helper functions */
+
+function getAnimationName(animName: string): string {
+  switch (animName) {
+    case 'shuffle':
+      return getShuffleAnimation(150);
+    default:
+      break;
+  }
+
+  throw new Error('Animation ' + animName + ' is unknown.');
+}
+
+function getShuffleAnimation(distance: number): string {
+  let styleSheet = document.styleSheets[0] as CSSStyleSheet;
+
+  let animationName = `shuffle-anim-${ Math.round(Math.random() * 100) }`;
+
+  let keyframes =
+    `@-webkit-keyframes ${animationName} {
+        0% {}
+        50% {-webkit-transform:translate(${
+            Math.random() * distance * 2 - distance
+          }px, ${
+            Math.random() * distance * 2 - distance
+          }px)}
+        100% {}
+    }`;
+
+  styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
+
+  return animationName;
 }
 
 export default DragSource(ItemTypes.CARD, cardSource, (connect, monitor) => ({
   // Call this function inside render()
   // to let React DnD handle the drag events:
   connectDragSource: connect.dragSource(),
-  connectDragPreview: connect.dragPreview(),
+  // connectDragPreview: connect.dragPreview(),
   // You can ask the monitor about the current drag state:
   isDragging: monitor.isDragging()
 }))(Card);

@@ -1,5 +1,5 @@
 import { isNumber } from 'util';
-import { GameProps } from '../App';
+import { GameProps } from '../Game';
 import { PileProps } from '../components/pile/Pile';
 import { CardProps } from '../components/card/Card';
 
@@ -21,6 +21,7 @@ export interface PileState {
   cards: string[];
   showBack: boolean;
   unfolded: boolean;
+  isShuffling: boolean;
 }
 
 export interface CardState {
@@ -97,14 +98,24 @@ export class Shuffle implements CardGameStateChanger {
     }
   }
 
+  animate(state: GameState): GameState {
+    let newState = JSON.parse(JSON.stringify(state)); // clone old state
+
+    let pileState = CardGameEngine.getPileState(newState, this.pile);
+
+    pileState.isShuffling = true;
+
+    return newState;
+  }
+
   make(state: GameState): GameState {
     let newState = JSON.parse(JSON.stringify(state)); // clone old state
 
     let pileState = CardGameEngine.getPileState(newState, this.pile);
 
+    pileState.isShuffling = false;
     pileState.cards = shuffle(pileState.cards);
 
-    console.log(newState);
     return newState;
   }
 }
