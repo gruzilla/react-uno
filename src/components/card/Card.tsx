@@ -88,7 +88,7 @@ class Card extends React.Component<CardProps, CardState> {
 
     const url = process.env.PUBLIC_URL + '/uno/' + (showBack ? 'back' : this.props.url) + '.png';
     const animCss: React.CSSProperties = {};
-    if (this.props.animationName && this.props.animationName != 'none') {
+    if (this.props.animationName && this.props.animationName !== 'none') {
       animCss.animationName = getAnimationName(this.props.animationName);
     } else {
       animCss.animationName = 'none';

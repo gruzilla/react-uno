@@ -65,9 +65,12 @@ class Game extends React.Component<GameProps, GameState> {
             // multiple state changes are pushed in here
             console.log('setState');
             this.setState(prevState => shuffle.animate(prevState));
-            window.setTimeout(() => {
-              this.setState(prevState => shuffle.make(prevState));
-            }, 600);
+            window.setTimeout(
+              () => {
+                this.setState(prevState => shuffle.make(prevState));
+              },
+              600
+            );
           }
         }
       });
