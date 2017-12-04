@@ -22,6 +22,7 @@ export interface PileState {
   showBack: boolean;
   unfolded: boolean;
   isShuffling: boolean;
+  lastIncomingMoveValidity: boolean;
 }
 
 export interface CardState {
@@ -34,6 +35,7 @@ interface StringHash<T> {
 export interface GameState {
   tableaux: StringHash<TableauState>;
   piles: StringHash<PileState>;
+  allowInvalidMoves: boolean;
 }
 
 export class CardGameEngine {
@@ -212,7 +214,7 @@ export class Move implements CardGameStateChanger {
     try {
       // check if piles can be found
       let fromPile = CardGameEngine.getPileState(state, this.from);
-      let toPile = CardGameEngine.getPileState(state, this.to);
+      // let toPile = CardGameEngine.getPileState(state, this.to);
 
       // check if this is an amount-move or a card-move
       if (this.amount <= 0 && this.card === '') {
@@ -234,12 +236,14 @@ export class Move implements CardGameStateChanger {
         }
 
         // check if the target pile does not have the card
+        /*
         if (toPile.cards.indexOf(this.card) >= 0) {
           if (CGE_DEBUG) {
             console.error('ToPile ' + this.to + ' does already have a card ' + this.card);
           }
           return false;
         }
+        */
       } else {
         // check if there are enough cards
         if (fromPile.cards.length < this.amount) {

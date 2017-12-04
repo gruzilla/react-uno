@@ -36,7 +36,7 @@
       "name": "Spieler 1",
       "sort": true,
       "incoming": [
-        "'deck' === move.from"
+        "'deck' === move.from || 'player1hand' === move.from"
       ],
       "allowShowFront": true,
       "showBack": true,
@@ -47,7 +47,7 @@
       "name": "Spieler 2",
       "sort": true,
       "incoming": [
-        "'deck' === move.from"
+        "'deck' === move.from || 'player2hand' === move.from"
       ],
       "allowShowFront": true,
       "showBack": true,
@@ -64,7 +64,7 @@
       "name": "Spielfeld",
       "allowShowFront": true,
       "incoming": [
-        "move.amount === 1 && (toPile.cards.length === 0 || getCard(card).suit === 'wild' || getCard(getLast(toPile.cards)).suit === getCard(card).suit || getCard(getLast(toPile.cards)).rank === getCard(card).rank)"
+        "move.amount === 1 && (toPile.cards.length === 0 || getCard(card).suit === 'wild' || getCard(getLast(toPile.cards)).suit === 'wild' || getCard(getLast(toPile.cards)).suit === getCard(card).suit || getCard(getLast(toPile.cards)).rank === getCard(card).rank)"
       ]
     }
   ],

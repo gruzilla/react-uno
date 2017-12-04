@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { MoveProps, PileState } from '../../lib/CardGameEngine';
+import { GameState, Move, MoveProps, PileState } from '../../lib/CardGameEngine';
 import { CardDragProps, CardDropResult, CardProps } from '../card/Card';
 import './Pile.css';
 import ItemTypes from '../../lib/ItemTypes';
 import { DropTarget, DropTargetMonitor, ConnectDropTarget } from 'react-dnd';
+import { GameProps } from '../../Game';
 
 export interface PileProps {
   id: string;
@@ -15,6 +16,10 @@ export interface PileProps {
   showBack?: boolean;
   allowShowFront?: boolean;
   initialShuffle?: boolean;
+  lastIncomingMoveValidity?: boolean;
+  allowInvalidMoves: boolean;
+  getGameState: () => GameState;
+  getGameProps: () => GameProps;
 
   // Injected by React DnD:
   isOver: Function;
@@ -31,17 +36,30 @@ export interface PileProps {
  */
 const pileTarget = {
   canDrop(props: PileProps, monitor: DropTargetMonitor): boolean {
-    // You can disallow drop based on props or item
-    const item = monitor.getItem() as CardDragProps;
-    if (props.id === item.pileSourceId) {
+    console.log(props.id + ' ' + monitor.isOver({ shallow: true }));
+    if (monitor.getItemType() !== ItemTypes.CARD || !monitor.isOver({ shallow: true }) || monitor.didDrop()) {
       return false;
     }
-    /*
-    console.log('candrop: ' + item.cardId + ' from ' + item.pileSourceId + ' to ' + props.id);
-    const m = new Move();
-    return m.isValid();
-    */
-    return true;
+    if (props.allowInvalidMoves === true) {
+      return true;
+    }
+
+    // You can disallow drop based on props or item
+    const item = monitor.getItem() as CardDragProps;
+    console.log('checking candrop on ' + props.id);
+    console.log(props.incoming);
+    const m = new Move(
+      item.pileSourceId,
+      props.id,
+      item.cardId,
+      true,
+      props.incoming,
+      props.getGameProps() // TODO: this is not beautiful
+    );
+
+    return m.isValid(
+      props.getGameState()  // TODO: this is not beautiful
+    );
   },
 
   /*
@@ -64,6 +82,7 @@ const pileTarget = {
   */
 
   drop(props: PileProps, monitor: DropTargetMonitor, component: Pile): CardDropResult {
+    console.log('try drop');
     if (monitor.didDrop()) {
       // If you want, you can check whether some nested
       // target already handled drop
@@ -99,6 +118,8 @@ class Pile extends React.Component<PileProps, PileState> {
     this.state = {
       cards: [],
       isShuffling: false,
+      lastIncomingMoveValidity: props.hasOwnProperty('lastIncomingMoveValidity') && props.lastIncomingMoveValidity ?
+        props.lastIncomingMoveValidity : false,
       showBack: props.hasOwnProperty('showBack') && props.showBack ? props.showBack : false,
       unfolded: props.hasOwnProperty('unfolded') && props.unfolded ? props.unfolded : false
     };
@@ -150,7 +171,11 @@ class Pile extends React.Component<PileProps, PileState> {
 //    onMouseUp={() => this.hide()}
     return connectDropTarget(
       <div
-        className={'pile ' + this.props.id + (isOver && canDrop ? ' can-drop' : '')}
+        className={'pile ' + this.props.id +
+          (this.props.lastIncomingMoveValidity === false ? ' last-move-invalid' : '') +
+          (isOver && canDrop ? ' can-drop' : '') +
+          (isOver && !canDrop ? ' can-not-drop' : '')
+        }
         style={this.props.css}
         onClick={() => this.props.allowShowFront ? this.toggleBack() : false}
       >

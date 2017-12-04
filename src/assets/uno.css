@@ -8,10 +8,6 @@
   text-align: center;
 }
 
-.pile.can-drop {
-  background-color: rgba(0, 150, 0, 0.3);
-}
-
 .tableau.player1 {
   top: 8%;
   left: 40%;
@@ -26,7 +22,29 @@
 .tableau.center {
   top: 40%;
   left: 30%;
-  width: 9cm;
+  width: 9.5cm;
+}
+
+.pile {
+  border: 10px solid transparent;
+  border-radius: 10px;
+}
+
+.pile.last-move-invalid {
+  animation-name: pulse-red;
+  animation-duration: 1s;
+}
+
+.pile.can-drop {
+  border-color: transparent;
+  /* border-color: rgba(0, 150, 0, 0.3); */
+  background-color: rgba(0, 150, 0, 0.3);
+}
+
+.pile.can-not-drop {
+  /* border-color: rgba(150, 0, 0, 0.3); */
+  border-color: transparent;
+  background-color: rgba(150, 0, 0, 0.3);
 }
 
 .pile.main {
@@ -70,4 +88,28 @@ nav ul button span {
 
 nav ul button.restart {
   background-color: #cfcfcf;
+}
+
+
+@keyframes pulse-red {
+  0% {
+    border-color: inherit;
+    background-color: inherit;
+  }
+  30% {
+    border-color: red;
+    background-color: red;
+  }
+  50% {
+    border-color: inherit;
+    background-color: inherit;
+  }
+  80% {
+    border-color: red;
+    background-color: red;
+  }
+  100% {
+    border-color: inherit;
+    background-color: inherit;
+  }
 }

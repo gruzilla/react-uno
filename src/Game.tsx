@@ -7,7 +7,7 @@ import {
 import { default as Pile, PileProps } from './components/pile/Pile';
 import {
   GameState, Move, PileState,
-  TableauState, MoveProps, Shuffle
+  TableauState, MoveProps, Shuffle, CardGameEngine
 } from './lib/CardGameEngine';
 // import HTML5Backend from 'react-dnd-html5-backend';
 // import TouchBackend from 'react-dnd-touch-backend';
@@ -20,6 +20,7 @@ import ItemTypes from './lib/ItemTypes';
 
 // const logo = require('./logo.svg');
 const gameState = require('./assets/state.json');
+gameState.allowInvalidMoves = false;
 
 export interface GameProps {
   piles: PileProps[];
@@ -77,13 +78,20 @@ class Game extends React.Component<GameProps, GameState> {
     }
   }
 
+  toggleInvalidMoves() {
+    this.setState(prevState => {
+      let newState = JSON.parse(JSON.stringify(prevState));
+      newState.allowInvalidMoves = !prevState.allowInvalidMoves;
+      return newState;
+    });
+  }
+
   render() {
     let tableaux: JSX.Element[] = [];
     this.props.tableaux.forEach(tableauProps => {
       let piles = this.renderPiles(tableauProps.id);
-      let newProps = {...tableauProps, ...{key: tableauProps.id}};
       tableaux.push(
-        <Tableau {...newProps}>
+        <Tableau key={tableauProps.id} {...tableauProps}>
           {piles}
         </Tableau>
       );
@@ -95,6 +103,12 @@ class Game extends React.Component<GameProps, GameState> {
             <li><button onClick={() => this.initialShuffle()}><span>1</span> shuffle</button></li>
             <li><button onClick={() => this.initialMoves()}><span>2</span> deal</button></li>
             <li><button onClick={() => this.restart()} className="restart">restart</button></li>
+            <li><input
+              name="allowInvalidMoves"
+              type="checkbox"
+              checked={this.state.allowInvalidMoves}
+              onChange={() => this.toggleInvalidMoves()}
+            />allow invalid moves</li>
           </ul>
         </nav>
         {tableaux}
@@ -112,10 +126,17 @@ class Game extends React.Component<GameProps, GameState> {
         const pileProps = this.props.piles.find(cPileProps => cPileProps.id === pileKey);
         if (pileProps) {
           pileProps.makeMove = this.makeMove.bind(this);
-          let newProps = {...pileProps, ...{key: pileProps.id}};
+          let pileState = CardGameEngine.getPileState(this.state, pileProps.id);
           let cards = this.renderCards(pileKey);
           piles.push(
-            <Pile {...newProps}>
+            <Pile
+              key={pileProps.id}
+              allowInvalidMoves={this.state.allowInvalidMoves}
+              getGameState={() => this.state}
+              getGameProps={() => this.props}
+              lastIncomingMoveValidity={pileState.lastIncomingMoveValidity}
+              {...pileProps}
+            >
               {cards}
             </Pile>
           );
@@ -138,11 +159,25 @@ class Game extends React.Component<GameProps, GameState> {
       this.props
     );
 
-    if (!m.isValid(this.state)) {
-      return;
-    }
+    this.setState(prevState => {
+      let isValid: boolean = m.isValid(prevState);
+      let newState = m.make(prevState);
+      let ps = CardGameEngine.getPileState(newState, moveProps.to);
+      ps.lastIncomingMoveValidity = isValid;
+      return newState;
+    });
 
-    this.setState(prevState => m.make(prevState));
+    // clean lastIncomingMove after 1 sec
+    window.setTimeout(
+      () => {
+        this.setState(prevState => {
+          let newState: GameState = JSON.parse(JSON.stringify(prevState));
+          Object.keys(newState.piles).forEach(pileId => newState.piles[pileId].lastIncomingMoveValidity = true);
+          return newState;
+        });
+      },
+      1000
+    );
   }
 
   renderCards(pileKey: string) {
